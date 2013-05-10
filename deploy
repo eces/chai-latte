@@ -1,0 +1,94 @@
+#!/bin/bash
+
+GREEN='\033[32m'
+GREEN_B='\033[42m'
+BLINK='\033[5m'
+RESET='\033[0m'
+
+ITEM=1
+ITEMS=5
+
+PORT=$1
+
+
+if [ -z "$PORT" ]; then
+  echo -e "usage: deploy [port_number]\n"
+  exit
+fi
+
+function canceled {
+  echo -e "${GREEN}\n[ MINTPRESSO ] See you later :)${RESET}"
+  exit
+}
+
+echo -e "\n[ MINTPRESSO ]\n"
+echo -e "${GREEN}Auto Deployment to trinity.so will be processed in $(pwd)${RESET}\n"
+
+
+# TIMER_START=$(date +%s)
+# see path of what you're going to deploy. is it right?
+echo -e "[${ITEM}/${ITEMS}] clean-compile-staged ${GREEN}$(pwd)/target${RESET} is in? [y/n]: "
+  while true; do
+    read OPT
+    if [ "$OPT" = "n" ]; then
+      canceled
+    elif [ "$OPT" = "y" ]; then
+      break
+    else
+      echo "[y/n] yes or no?"
+    fi
+  done
+let ITEM+=1
+# TIMER_END = $(date +%s)
+# TIMER_DIFF=$(( $TIMER_END - $TIMER_START ))
+# echo -e "[${ITEM}/${ITEMS}] Done in ${TIMER_DIFF}s"
+
+# what server and port do you want to deploy?
+echo -e "[${ITEM}/${ITEMS}] Port ${GREEN}${PORT}${RESET} is okay? [y/n]: "
+  while true; do
+    read OPT
+    if [ "$OPT" = "n" ]; then
+      canceled
+    elif [ "$OPT" = "y" ]; then
+      break
+    else
+      echo "[y/n] yes or no?"
+    fi
+  done
+let ITEM+=1
+
+echo -e "[${ITEM}/${ITEMS}] Waiting for upload ... "
+  START=$(date +%s)
+
+  # copying
+  rsync -rzu ./target/ trinity@trinity.so:/home/trinity/playframework/.${PORT}
+  
+  END=$(date +%s)
+  DIFF=$(( $END - $START ))
+
+let ITEM+=1
+echo -e "${GREEN} Uploaded in ${DIFF}s${RESET}"
+echo -e "[${ITEM}/${ITEMS}] Waiting for restart ... "
+  # ssh shell script execution
+  # 1> /dev/null
+  ssh trinity@trinity.so << EOF
+    cd ~/playframework
+    mkdir -p ${PORT}/framework
+    mkdir -p ${PORT}/logs
+    cd ${PORT}
+    if [ -f RUNNING_PID ]
+    then
+      kill `cat RUNNING_PID`
+    fi
+    rm -rf framework/*
+    mv ../.${PORT}/* framework/
+    echo -e "[INFO] Deployed at \t$(date)\t$(date +%s)" >> ./logs/deployment.log
+    cd ./framework
+    nohup ./start -Dhttp.port=${PORT} & 1>> ./nohup.out
+  EOF && exit
+
+let ITEM+=1
+# done in 000ms
+# echo -e "\n[ MINTPRESSO ]\n"
+echo -e "[${ITEM}/${ITEMS}] ${GREEN}DONE!"
+
