@@ -11,8 +11,8 @@ ITEMS=5
 
 PORT=$1
 
-
-if [ -z "$PORT" ]; then
+if [ -z "$PORT" ]
+then
   echo -e "usage: deploy [port_number]\n"
   exit
 fi
