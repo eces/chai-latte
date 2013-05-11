@@ -1,12 +1,17 @@
-# Chai-latte
+# Chai Latte
 ### A tool for parallel deployment with Play Framework 2
 It allows developers publish to dedicate server in a blink.
 
-This is especially for
 
+## Naming
+Chai-tea Latte is one of the most favorite hot beverage of @eces. An english word (formerly from Persian/Hindustani language) 'chai' pronounces like the word 'difference' in Korean. Chai Latte means that differences of local and server are softly going together like soft steamed milk.
+
+@eces가 제일 좋아하는 Chai-tea Latte로 이름을 정했습니다. "서버와 로컬의 Chai(차이)를 Latte(라떼)처럼 합치자"라는 뜻을 가지고 있습니다.
+
+## Requirements
 - Play Framework 2.x
 - Server can use SSH
-- Proxy enabled web server with load balancer (an example of Apache is below)
+- Proxy enabled web server with port-based load balancer (an example of Apache is below)
 
 ## Getting Started
 
