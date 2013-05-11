@@ -108,7 +108,7 @@ echo -e "[${ITEM}/${ITEMS}] Waiting for upload ... "
 let ITEM+=1
 echo -e "[${ITEM}/${ITEMS}] Waiting for restart ... "
   # ssh shell script execution
-  # 1> /dev/null
+  echo -e "${YELLOW}"
   ssh -t -t ${SERVER_USER}@${SERVER_HOST} << EOF
     cd ${BASE_DIR}
     mkdir -p ${PORT}/framework
@@ -124,6 +124,7 @@ echo -e "[${ITEM}/${ITEMS}] Waiting for restart ... "
     cd ./framework
     nohup ./start -Dhttp.port=${PORT} ${PLAY_OPTIONS} & 1>> ./nohup.out && exit
   EOF
+  echo -e "${RESET}"
 
 let ITEM+=1
 echo -e "[${ITEM}/${ITEMS}] ${GREEN}DONE!"
