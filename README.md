@@ -87,3 +87,5 @@ Chai-tea Latte is one of the most favorite hot beverage of @eces. An english wor
 # Further information
 
 Please email to [support@mintpresso.com](mailto:support@mintpresso.com) or create issue on [Github Issues](https://github.com/eces/chai-latte/issues).
+
+This is a by-product of [MINTPRESSO](http://mintpresso.com).
