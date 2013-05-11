@@ -16,18 +16,50 @@ if [ -z "$PORT" ]; then
   exit
 fi
 
+if ! [ -f deploy.conf ]
+then
+  echo -e "error:\tcannot find ${GREEN}deploy.conf${RESET}\n\tmake sure ${GREEN}`pwd`/deploy.conf${RESET} is in this directory\n"
+  exit
+fi
+
+. ./deploy.conf
+
+if [ -z "$ORGANIZATION_NAME" ]
+then
+  ORGANIZATION_NAME='DEPLOYMENT'
+  echo -e "warn:\t${GREEN}ORGANIZATION_NAME${RESET} is unset\n\tconfigure this option in ${GREEN}deploy.conf${RESET}\n"
+fi
+
+if [ -z "$USER_NAME" ]
+then
+  USER_NAME=`whoami`
+  echo -e "warn:\t${GREEN}USER_NAME${RESET} is unset\n\tconfigure this option in ${GREEN}deploy.conf${RESET}\n\t${GREEN}${USER_NAME}${RESET} will be used instead\n"
+fi
+
+if [ -z "$SERVER_NAME" ]
+then
+  SERVER_NAME='somewhere'
+  echo -e "warn:\t${GREEN}SERVER_NAME${RESET} is unset\n\tconfigure this option in ${GREEN}deploy.conf${RESET}\n\t${GREEN}somewhere${RESET} will be used instead\n"
+fi
+
+if [ -z "$SERVER_HOST" ] || [ -z "$SERVER_USER" ] || [ -z "$BASE_DIR" ]
+then
+  echo -e "error:\t${GREEN}SERVER_HOST${RESET}, ${GREEN}SERVER_USER${RESET}, and ${GREEN}BASE_DIR${RESET} must be given\n\tconfigure this option in ${GREEN}deploy.conf${RESET}\n"
+  exit
+fi
+
 function canceled {
-  echo -e "${GREEN}\n[ MINTPRESSO ] See you later :)${RESET}"
+  echo -e "${GREEN}\n[ $ORGANIZATION_NAME ] See you later :)${RESET}"
   exit
 }
 
-echo -e "\n[ MINTPRESSO ]\n"
-echo -e "${GREEN}Auto Deployment to trinity.so will be processed in $(pwd)${RESET}\n"
+echo -e "\n[ $ORGANIZATION_NAME ]\n"
+echo -e "Auto Deployment to ${GREEN}${SERVER_NAME}${RESET} will be processed in ${GREEN}$(pwd)${RESET}\n"
 
 
 # TIMER_START=$(date +%s)
 # see path of what you're going to deploy. is it right?
-echo -e "[${ITEM}/${ITEMS}] clean-compile-staged ${GREEN}$(pwd)/target${RESET} is in? [y/n]: "
+echo -e "[${ITEM}/${ITEMS}] clean-compile-staged ${GREEN}$(pwd)/target${RESET} is okay? [y/n]: "
   while true; do
     read OPT
     if [ "$OPT" = "n" ]; then
@@ -71,8 +103,8 @@ echo -e "${GREEN} Uploaded in ${DIFF}s${RESET}"
 echo -e "[${ITEM}/${ITEMS}] Waiting for restart ... "
   # ssh shell script execution
   # 1> /dev/null
-  ssh trinity@trinity.so << EOF
-    cd ~/playframework
+  ssh -t -t ${SERVER_USER}@${SERVER_HOST} << EOF
+    cd ${BASE_DIR}
     mkdir -p ${PORT}/framework
     mkdir -p ${PORT}/logs
     cd ${PORT}
@@ -82,13 +114,10 @@ echo -e "[${ITEM}/${ITEMS}] Waiting for restart ... "
     fi
     rm -rf framework/*
     mv ../.${PORT}/* framework/
-    echo -e "[INFO] Deployed at \t$(date)\t$(date +%s)" >> ./logs/deployment.log
+    echo -e "[INFO] Deployed at \t$(date)\t$(date +%s) by ${USER_NAME}" >> ./logs/deployment.log
     cd ./framework
-    nohup ./start -Dhttp.port=${PORT} & 1>> ./nohup.out
-  EOF && exit
+    nohup ./start -Dhttp.port=${PORT} ${PLAY_OPTIONS} & 1>> ./nohup.out && exit
+  EOF
 
 let ITEM+=1
-# done in 000ms
-# echo -e "\n[ MINTPRESSO ]\n"
 echo -e "[${ITEM}/${ITEMS}] ${GREEN}DONE!"
-
