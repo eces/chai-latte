@@ -39,7 +39,7 @@ Chai-tea Latte is one of the most favorite hot beverage of @eces. An english wor
 
     # without slash '/' at the end
     BASE_DIR='/home/trinity/playframework'
-    PLAY_OPTIONS=''
+    PLAY_OPTIONS='-Dconfig.file=../production.conf'
     ```
 
 0. (Optional) You may need to type `../path/to/chai-latte/deploy` all the time, so let's go easy! Create symbolic link with `ln -s` or just add one line `alias deploy="~/chai-latte/deploy"` in your shell configuration file (For bash shell, edit `~/.profile` and reload `. ~/.profile` ) so now you can use `deploy` everywhere.
