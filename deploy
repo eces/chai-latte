@@ -114,9 +114,9 @@ cd ${BASE_DIR}
 mkdir -p ${PORT}/framework
 mkdir -p ${PORT}/logs
 cd ${PORT}
-if [ -f RUNNING_PID ]
+if [ -f ${BASE_DIR}/${PORT}/RUNNING_PID ]
 then
-  kill `cat RUNNING_PID`
+  kill \`cat ${BASE_DIR}/${PORT}/RUNNING_PID\`
 fi
 rm -rf framework/*
 mv ../.${PORT}/* framework/
