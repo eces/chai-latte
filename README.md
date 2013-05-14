@@ -44,6 +44,8 @@ Chai-tea Latte is one of the most favorite hot beverage of @eces. An english wor
 
 0. (Optional) You may need to type `../path/to/chai-latte/deploy` all the time, so let's go easy! Create symbolic link with `ln -s` or just add one line `alias deploy="~/chai-latte/deploy"` in your shell configuration file (For bash shell, edit `~/.profile` and reload `. ~/.profile` ) so now you can use `deploy` everywhere.
 
+0. Prepare the compiled `target` source by typing `sbt clean compile stage` in your working directory.
+
 0. Run `deploy` in command line and you will see 
     ```bash
     $ deploy
