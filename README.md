@@ -69,10 +69,39 @@ Chai-tea Latte is one of the most favorite hot beverage of @eces. An english wor
 
 0. (Optional) For your information, you don't need to enter the password in every deployment process. Using some sugar `ssh-keygen` and `ssh-copy-id` you can just skip it. **If your deployment is for prototyping**, it's very nice and highly recommended.
 
-    >TODO
-    >
-    > check this out:
-    > http://www.thegeekstuff.com/2008/11/3-steps-to-perform-ssh-login-without-password-using-ssh-keygen-ssh-copy-id/
+    > Check this out: [3 Steps to perform SSH login without password using ssh-key and ssh-copy-id](http://www.thegeekstuff.com/2008/11/3-steps-to-perform-ssh-login-without-password-using-ssh-keygen-ssh-copy-id)
+
+    This is an **5 seconds deployment** example if you've followed the guide above.
+    ```bash
+    $ deploy 15000
+
+    [ MINTPRESSO ]
+
+    Auto Deployment to trinity.so (IDC) will be processed in /Users/eces/panel
+
+    [1/5] clean-compile-staged /Users/eces/panel/target is okay? [y/n]: 
+    y
+    [2/5] Port 15000 is okay? [y/n]: 
+    y
+    [3/5] Waiting for upload ... 
+
+     Uploaded in 4s
+    [4/5] Waiting for restart ... 
+
+    ...
+    # remote console displays in here with yellow color
+    ...
+
+     Executed in 1s
+     Total 5s
+
+    [5/5] DONE!
+    ```
+
+    Please don't do this.
+    ```bash
+    $ yes | deploy 15000
+    ```
 
 ## Setting up web server
 
