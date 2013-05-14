@@ -46,13 +46,13 @@ Chai-tea Latte is one of the most favorite hot beverage of @eces. An english wor
 
 0. Run `deploy` in command line and you will see 
     ```bash
-    Eces-Mac-Mini:soran-ui eces$ deploy
+    $ deploy
     usage: deploy [port_number]
     ```
 
 0. See what's going on. All output from remote server displays in yellow.
     ```bash
-    Eces-Mac-Mini:soran-ui eces$ deploy 10000
+    $ deploy 10000
 
     [ MINTPRESSO ]
 
