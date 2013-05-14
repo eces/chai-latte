@@ -101,14 +101,15 @@ echo -e "[${ITEM}/${ITEMS}] Waiting for upload ... "
     exit
   else
     END=$(date +%s)
-    DIFF=$(( $END - $START ))
-    echo -e "${GREEN} Uploaded in ${DIFF}s${RESET}"
+    DIFF1=$[$END-$START]
+    echo -e "${GREEN} Uploaded in ${DIFF1}s${RESET}"
   fi
 
 let ITEM+=1
 echo -e "[${ITEM}/${ITEMS}] Waiting for restart ... "
   # ssh shell script execution
   echo -e "${YELLOW}"
+  START=$(date +%s)
   ssh -t -t ${SERVER_USER}@${SERVER_HOST} << EOF
 cd ${BASE_DIR}
 mkdir -p ${PORT}/framework
@@ -127,6 +128,10 @@ nohup ./start -Dhttp.port=${PORT} ${PLAY_OPTIONS} & 1>> ./nohup.out
 exit
 EOF
   echo -e "${RESET}"
+  END=$(date +%s)
+  DIFF2=$[$END-$START]
+  TOTAL=$[DIFF1+DIFF2]
+  echo -e "${GREEN} Executed in ${DIFF2}s${RESET}\n Total ${TOTAL}s\n"
 
 let ITEM+=1
-echo -e "[${ITEM}/${ITEMS}] ${GREEN}DONE!"
+echo -e "[${ITEM}/${ITEMS}] ${GREEN}DONE!${RESET}"
