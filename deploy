@@ -110,20 +110,22 @@ echo -e "[${ITEM}/${ITEMS}] Waiting for restart ... "
   # ssh shell script execution
   echo -e "${YELLOW}"
   ssh -t -t ${SERVER_USER}@${SERVER_HOST} << EOF
-    cd ${BASE_DIR}
-    mkdir -p ${PORT}/framework
-    mkdir -p ${PORT}/logs
-    cd ${PORT}
-    if [ -f RUNNING_PID ]
-    then
-      kill `cat RUNNING_PID`
-    fi
-    rm -rf framework/*
-    mv ../.${PORT}/* framework/
-    echo -e "[INFO] Deployed at \t$(date)\t$(date +%s) by ${USER_NAME}" >> ./logs/deployment.log
-    cd ./framework
-    nohup ./start -Dhttp.port=${PORT} ${PLAY_OPTIONS} & 1>> ./nohup.out && exit
-  EOF
+cd ${BASE_DIR}
+mkdir -p ${PORT}/framework
+mkdir -p ${PORT}/logs
+cd ${PORT}
+if [ -f RUNNING_PID ]
+then
+  kill `cat RUNNING_PID`
+fi
+rm -rf framework/*
+mv ../.${PORT}/* framework/
+echo -e "[INFO] Deployed at \t$(date)\t$(date +%s) by ${USER_NAME}" >> ./logs/deployment.log
+cd ./framework
+
+nohup ./start -Dhttp.port=${PORT} ${PLAY_OPTIONS} & 1>> ./nohup.out
+exit
+EOF
   echo -e "${RESET}"
 
 let ITEM+=1
