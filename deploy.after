@@ -1,0 +1,8 @@
+# deploy.after
+#
+# Author: Jinhyuk Lee <eces at mstock.org>
+# Organization: MINTPRESSO <support at mintpresso.com>
+# Repository: https://github.com/eces/chai-latte
+#
+# Description: This is a shell script for the trigger that will be executed just AFTER deployment.
+#
