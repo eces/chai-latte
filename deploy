@@ -1,5 +1,12 @@
 #!/bin/bash
 
+# deploy
+#
+# Author: Jinhyuk Lee <eces at mstock.org>
+# Organization: MINTPRESSO <support at mintpresso.com>
+# Repository: https://github.com/eces/chai-latte
+#
+
 GREEN='\033[32m'
 GREEN_B='\033[42m'
 YELLOW='\033[33m'
