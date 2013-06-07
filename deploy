@@ -93,6 +93,11 @@ echo -e "[${ITEM}/${ITEMS}] Port ${GREEN}${PORT}${RESET} is okay? [y/n]: "
   done
 let ITEM+=1
 
+if [ -f deploy.before ]
+then
+  . ./deploy.before
+fi
+
 echo -e "[${ITEM}/${ITEMS}] Waiting for upload ... "
   START=$(date +%s)
 
@@ -142,3 +147,8 @@ EOF
 
 let ITEM+=1
 echo -e "[${ITEM}/${ITEMS}] ${GREEN}DONE!${RESET}"
+
+if [ -f deploy.after ]
+then
+  . ./deploy.after
+fi
