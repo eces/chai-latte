@@ -95,7 +95,9 @@ let ITEM+=1
 
 if [ -f deploy.before ]
 then
+  echo -e $YELLOW
   . ./deploy.before
+  echo -e $RESET
 fi
 
 echo -e "[${ITEM}/${ITEMS}] Waiting for upload ... "
@@ -150,5 +152,7 @@ echo -e "[${ITEM}/${ITEMS}] ${GREEN}DONE!${RESET}"
 
 if [ -f deploy.after ]
 then
+  echo -e $YELLOW
   . ./deploy.after
+  echo -e $RESET
 fi
