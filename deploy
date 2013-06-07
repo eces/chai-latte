@@ -138,7 +138,9 @@ mv ../.${PORT}/* framework/
 echo -e "[INFO] Deployed at \t$(date)\t$(date +%s) by ${USER_NAME}" >> ./logs/deployment.log
 cd ./framework
 
+${DEPLOY_BEFORE}
 nohup ./start -Dhttp.port=${PORT} ${PLAY_OPTIONS} & 1>> ./nohup.out
+${DEPLOY_AFTER}
 exit
 EOF
   echo -e "${RESET}"
