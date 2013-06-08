@@ -132,6 +132,12 @@ cd ${PORT}
 if [ -f ${BASE_DIR}/${PORT}/RUNNING_PID ]
 then
   kill \`cat ${BASE_DIR}/${PORT}/RUNNING_PID\`
+  # double check in case of improper server down.
+  if [ -f ${BASE_DIR}/${PORT}/RUNNING_PID ]
+  then
+    # remove zombie RUNNING_PID
+    rm ${BASE_DIR}/${PORT}/RUNNING_PID
+  fi
 fi
 rm -rf framework/*
 mv ../.${PORT}/* framework/
